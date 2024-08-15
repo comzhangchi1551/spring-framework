@@ -559,6 +559,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+
+			// 创建一个新的 beanFactory 对象
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -587,7 +589,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Check for listener beans and register them.
 				registerListeners();
 
-				// Instantiate all remaining (non-lazy-init) singletons.
+				// Instantiate all remaining (non-lazy-init) singletons. 除了少数的需要先加载的 bean，多数的 bean 都是在这里进行实例化的。
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
