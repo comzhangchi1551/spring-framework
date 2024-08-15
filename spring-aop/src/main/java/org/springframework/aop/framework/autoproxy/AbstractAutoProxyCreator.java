@@ -93,6 +93,10 @@ import org.springframework.util.StringUtils;
  * @see BeanNameAutoProxyCreator
  * @see DefaultAdvisorAutoProxyCreator
  */
+
+/**
+ * 是一个 beanPostProcessor，用来创建代理对象
+ */
 @SuppressWarnings("serial")
 public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		implements SmartInstantiationAwareBeanPostProcessor, BeanFactoryAware {
@@ -323,6 +327,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 *
 	 * 如果满足条件，则对 bean 生成代理对象后，返回代理对象。
 	 *
+	 * 		1. 如果发生循环依赖，则通过 getEarlyBeanReference 触发；
+	 * 		2. 如果没发生循环依赖，则通过 postProcessAfterInitialization 触发；
+	 *
 	 * @param bean the raw bean instance
 	 * @param beanName the name of the bean
 	 * @param cacheKey the cache key for metadata access
@@ -480,6 +487,8 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (classLoader instanceof SmartClassLoader && classLoader != beanClass.getClassLoader()) {
 			classLoader = ((SmartClassLoader) classLoader).getOriginalClassLoader();
 		}
+
+		// 这里是重点
 		return proxyFactory.getProxy(classLoader);
 	}
 

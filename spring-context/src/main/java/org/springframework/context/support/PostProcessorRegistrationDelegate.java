@@ -112,6 +112,8 @@ final class PostProcessorRegistrationDelegate {
 			}
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
+
+			// 分三个方法，调用 实现了 BeanDefinitionRegistryPostProcessor 接口的。
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
 			currentRegistryProcessors.clear();
 
@@ -149,6 +151,7 @@ final class PostProcessorRegistrationDelegate {
 			}
 
 			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
+			// 分 6 个方法，调用 BeanFactoryPostProcessor 相关的。
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
 		}
@@ -305,6 +308,8 @@ final class PostProcessorRegistrationDelegate {
 	}
 
 	/**
+	 * 被一个地方分三批调用；
+	 *
 	 * Invoke the given BeanDefinitionRegistryPostProcessor beans.
 	 */
 	private static void invokeBeanDefinitionRegistryPostProcessors(
@@ -319,6 +324,8 @@ final class PostProcessorRegistrationDelegate {
 	}
 
 	/**
+	 * 被一个地方，分六批调用
+	 *
 	 * Invoke the given BeanFactoryPostProcessor beans.
 	 */
 	private static void invokeBeanFactoryPostProcessors(
