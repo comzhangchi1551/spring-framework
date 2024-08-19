@@ -307,6 +307,8 @@ class ConfigurationClassParser {
 		}
 
 		// Process any @Import annotations
+		// getImports() ，主要是解析当前的类，递归拿到当前类中所有的 @Import 注解的 value，返回一个 Set 集合。
+		// 然后由 processImports() 进行进一步解析，也就是扫描 META-INF/spring.factories 中的信息。
 		processImports(configClass, sourceClass, getImports(sourceClass), filter, true);
 
 		// Process any @ImportResource annotations
@@ -516,6 +518,9 @@ class ConfigurationClassParser {
 
 
 	/**
+	 *
+	 * 	getImports() ，主要是解析当前的类，递归拿到当前类中所有的 @Import 注解的 value，返回一个 Set 集合。
+	 *
 	 * Returns {@code @Import} class, considering all meta-annotations.
 	 */
 	private Set<SourceClass> getImports(SourceClass sourceClass) throws IOException {
