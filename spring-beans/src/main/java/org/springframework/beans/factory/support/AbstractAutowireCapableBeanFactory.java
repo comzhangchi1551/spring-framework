@@ -1805,6 +1805,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
 			// BeanPostProcessors ---> before
+			// 重点 CommonAnnotationBeanPostProcessor   @PostConstruct、@PreDestroy的实现
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1818,7 +1819,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			// // BeanPostProcessors ---> after
+			// BeanPostProcessors ---> after
+			// 重点 AutowiredAnnotationBeanPostProcessor  @Autowired、@Value 的实现
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
